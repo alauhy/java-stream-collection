@@ -5,6 +5,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.*;
+
 
 public class Add {
     public int getSumOfEvens(int leftBorder, int rightBorder) {
@@ -14,13 +16,7 @@ public class Add {
             leftBorder = rightBorder;
             rightBorder = tmp;
         }
-        for (int i = leftBorder; i <= rightBorder; i++) {
-            if (i % 2 == 0) {
-                sum += i;
-            }
-
-        }
-        return sum;
+       return  IntStream.range(leftBorder,rightBorder+1).filter((e)->e%2==0).sum();
     }
 
 
@@ -34,14 +30,12 @@ public class Add {
     }
 
     public List<Integer> getTripleOfOddAndAddTwo(List<Integer> arrayList) {
-        List<Integer> newArrayList = new ArrayList<Integer>();
-        for (Integer i : arrayList) {
-            if (i % 2 == 0) {
-                newArrayList.add(i);
-            }
-            else newArrayList.add(i*3+2);
-        }
-        return newArrayList;
+      return arrayList.stream().map((e)->{
+          if(e%2!=0){
+              return e*3+2;
+          }
+          return e;
+      }).collect(Collectors.toList());
     }
 
     public int getSumOfProcessedOdds(List<Integer> arrayList) {
@@ -53,9 +47,8 @@ public class Add {
 //    }
 
     public double getAverageOfEven(List<Integer> arrayList) {
-        List<Integer> list=new ArrayList<Integer>();
-        list=arrayList.stream().filter((e)->e%2==0).collect(Collectors.toList());
-        return list.stream().reduce(0,(x,y)->x+y)/list.size();
+
+        return arrayList.stream().filter((e)->e%2==0).collect(Collectors.averagingDouble((x)->x));
     }
 
     public boolean isIncludedInEvenIndex(List<Integer> arrayList, Integer specialElment) {
@@ -63,7 +56,7 @@ public class Add {
     }
 
     public List<Integer> getUnrepeatedFromEvenIndex(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().distinct().filter((e)->(e%2==0)).collect(Collectors.toList());
     }
 
 //    public List<Integer> sortByEvenAndOdd(List<Integer> arrayList) {
